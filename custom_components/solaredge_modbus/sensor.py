@@ -13,6 +13,7 @@ from .const import (
 from homeassistant.helpers.entity import Entity
 from homeassistant.const import CONF_NAME
 from homeassistant.core import callback
+from homeassistant.helpers.restore_state import RestoreEntity
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -83,7 +84,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     return True
 
 
-class SolarEdgeSensor(Entity):
+class SolarEdgeSensor(RestoreEntity):
     """Representation of an SolarEdge Modbus sensor."""
 
     def __init__(self, platform_name, hub, device_info, name, key, unit, icon):
@@ -98,6 +99,9 @@ class SolarEdgeSensor(Entity):
 
     async def async_added_to_hass(self):
         """Register callbacks."""
+        state = await self.async_get_last_state()
+        if state:
+            self._state = state.state
         self._hub.async_add_solaredge_sensor(self._modbus_data_updated)
 
     async def async_will_remove_from_hass(self) -> None:
@@ -105,9 +109,9 @@ class SolarEdgeSensor(Entity):
 
     @callback
     def _modbus_data_updated(self):
+        self._update_state()
         self.async_write_ha_state()
 
-    @callback
     def _update_state(self):
         if self._key in self._hub.data:
             self._state = self._hub.data[self._key]
@@ -134,8 +138,7 @@ class SolarEdgeSensor(Entity):
     @property
     def state(self):
         """Return the state of the sensor."""
-        if self._key in self._hub.data:
-            return self._hub.data[self._key]
+        return self._state
 
     @property
     def state_attributes(self) -> Optional[Dict[str, Any]]:
