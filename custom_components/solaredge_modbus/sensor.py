@@ -11,8 +11,28 @@ from .const import (
     ATTR_MANUFACTURER,
 )
 from homeassistant.helpers.entity import Entity
-from homeassistant.const import CONF_NAME
 from homeassistant.core import callback
+from homeassistant.components.sensor import (
+    ATTR_LAST_RESET,
+    STATE_CLASS_MEASUREMENT,
+    SensorEntity,
+    SensorEntityDescription,
+)
+from homeassistant.const import (
+    ATTR_VOLTAGE,
+    CONF_ALIAS,
+    CONF_DEVICE_ID,
+    CONF_MAC,
+    CONF_NAME,
+    DEVICE_CLASS_CURRENT,
+    DEVICE_CLASS_ENERGY,
+    DEVICE_CLASS_POWER,
+    DEVICE_CLASS_VOLTAGE,
+    ELECTRIC_CURRENT_AMPERE,
+    ELECTRIC_POTENTIAL_VOLT,
+    ENERGY_KILO_WATT_HOUR,
+    POWER_WATT,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -37,6 +57,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
             sensor_info[1],
             sensor_info[2],
             sensor_info[3],
+            sensor_info[4],
         )
         entities.append(sensor)
 
@@ -50,6 +71,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
                 meter_sensor_info[1],
                 meter_sensor_info[2],
                 meter_sensor_info[3],
+                meter_sensor_info[4],
             )
             entities.append(sensor)
 
@@ -63,6 +85,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
                 meter_sensor_info[1],
                 meter_sensor_info[2],
                 meter_sensor_info[3],
+                meter_sensor_info[4],
             )
             entities.append(sensor)
 
@@ -76,6 +99,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
                 meter_sensor_info[1],
                 meter_sensor_info[2],
                 meter_sensor_info[3],
+                meter_sensor_info[4],
             )
             entities.append(sensor)
 
@@ -86,7 +110,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class SolarEdgeSensor(Entity):
     """Representation of an SolarEdge Modbus sensor."""
 
-    def __init__(self, platform_name, hub, device_info, name, key, unit, icon):
+    def __init__(self, platform_name, hub, device_info, name, key, unit, icon, device_class):
         """Initialize the sensor."""
         self._platform_name = platform_name
         self._hub = hub
@@ -95,6 +119,8 @@ class SolarEdgeSensor(Entity):
         self._unit_of_measurement = unit
         self._icon = icon
         self._device_info = device_info
+        self._device_class = device_class
+        self._state_class=STATE_CLASS_MEASUREMENT
 
     async def async_added_to_hass(self):
         """Register callbacks."""
