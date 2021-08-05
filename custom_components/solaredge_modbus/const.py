@@ -29,7 +29,7 @@ SENSOR_TYPES = {
     "AC_VAR": ["AC VAR", "acvar", "VAR", None, DEVICE_CLASS_POWER],
     "AC_PF": ["AC PF", "acpf", "%", None, DEVICE_CLASS_POWER_FACTOR],
     "AC_Energy_KWH": ["AC Energy KWH", "acenergy", "kWh", "mdi:solar-power", DEVICE_CLASS_ENERGY],
-    "DC_Current": ["DC Current", "dccurrent", "A", "mdi:current-dc", DEVICE_CLASS_CURRENT,
+    "DC_Current": ["DC Current", "dccurrent", "A", "mdi:current-dc", DEVICE_CLASS_CURRENT],
     "DC_Voltage": ["DC Voltage", "dcvoltage", "V", None, DEVICE_CLASS_VOLTAGE],
     "DC_Power": ["DC Power", "dcpower", "W", "mdi:solar-power", DEVICE_CLASS_POWER],
     "Temp_Sink": ["Temp Sink", "tempsink", "°C", None, DEVICE_CLASS_TEMPERATURE],
