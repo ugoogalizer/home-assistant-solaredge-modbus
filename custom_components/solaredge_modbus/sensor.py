@@ -141,6 +141,16 @@ class SolarEdgeSensor(Entity):
         return self._unit_of_measurement
 
     @property
+    def device_class(self):
+        """Return the device class."""
+        return self._device_class
+
+    @property
+    def state_class(self):
+        """Return the state class."""
+        return self._state_class
+
+    @property
     def icon(self):
         """Return the sensor icon."""
         return self._icon
