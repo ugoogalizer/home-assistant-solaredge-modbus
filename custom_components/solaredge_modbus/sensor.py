@@ -150,6 +150,11 @@ class SolarEdgeSensor(Entity):
         return self._state_class
 
     @property
+    def last_reset(self):
+        """Return the last reset time."""
+        return self._last_reset
+    
+    @property
     def icon(self):
         """Return the sensor icon."""
         return self._icon
