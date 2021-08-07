@@ -107,6 +107,7 @@ class SolarEdgeSensor(Entity):
         self._device_info = device_info
         self._device_class = device_class
         self._state_class = state_class
+        self._last_reset = "1970-01-01T00:00:00+00:00"
 
     async def async_added_to_hass(self):
         """Register callbacks."""
